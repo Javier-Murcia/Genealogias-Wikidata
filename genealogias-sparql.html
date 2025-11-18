@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Editor SPARQL: Genealogías Wikidata</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="css/yasgui.min.css" rel="stylesheet" type="text/css" />
+
+ <script src="js/yasgui.min.js"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="estilos-genealogias.css" rel="stylesheet" />
+    </head>
+    <body >
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="index.html"> Volver a Genalogías</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                  </ul>
+
+                </div>
+
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5" >
+              <h1 class="font-weight-light" id="titulo" style="text-align: center;">Editor SPARQL</h1>
+              <div>
+
+              </div>
+                <div class="col-lg-5" >
+                    <div class="col-lg-7">
+
+
+                </div>
+            </div>
+            <!-- Call to Action-->
+
+            <!-- Content Row-->
+            <div class="row gx-4 gx-lg-5">
+              <div style="display:block;text-align: center;padding:20px;">
+                <div style="display:inline-block;" >  <button id="consulta-1"   class="btn btn-primary">Consulta Descendientes</button></div>
+              <div style="display: inline-block;" >    <button id="consulta-2"   class="btn btn-primary">Consulta Genealogías Conectadas</button></div>
+            <div style="display: inline-block;"  >      <button id="consulta-3"   class="btn btn-primary">Consulta Maestro/Discípulo</button></div>
+
+
+      </div>
+              <div id="yasgui"></div>
+
+            </div>
+        </div>
+        <!-- Footer-->
+        <footer class="py-5 ">
+            <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <style>
+.yasgui .autocompleteWrapper {
+display: none !important;
+}
+</style>
+
+<script>
+  localStorage.clear();
+const yasgui = new Yasgui(document.getElementById("yasgui"), {
+requestConfig: { endpoint: "https://query.wikidata.org/sparql" },
+method: 'GET',
+copyEndpointOnNewTab: false,
+});
+yasgui.getTab().yasqe.setValue("PREFIX bd: <http://www.bigdata.com/rdf#>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX schema: <http://schema.org/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX gas: <http://www.bigdata.com/rdf/gas#>\nSELECT ?item ?itemLabel ?linkTo ?depth ?comment (SAMPLE (?EjemfechaNaci) AS ?fechaNaci) (SAMPLE (?pic) AS ?unica_pic)\nWHERE\n{\nSERVICE gas:service {\n  gas:program gas:gasClass \"com.bigdata.rdf.graph.analytics.SSSP\" ;\n  gas:in wd:Q47595; #Alfonso X\n  gas:traversalDirection \"Forward\";\n  gas:out ?item;\n  gas:out1 ?depth;\n  gas:maxIterations 3;\n  gas:linkType wdt:P40; #descendiente\n}\nOPTIONAL { ?item wdt:P40 ?linkTo.}\nOPTIONAL { ?item wdt:P18 ?pic.}\nOPTIONAL { ?item wdt:P569 ?EjemfechaNaci}\nOPTIONAL{?item schema:description ?comment.\nFILTER (lang(?comment) = 'es').}\nSERVICE wikibase:label { bd:serviceParam wikibase:language\"[AUTO_LANGUAGE],es,en,ar,be,bg,bn,ca,cs,da,de,el,fr,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh\".}\n}\nGROUP BY ?item ?itemLabel ?linkTo ?unica_pic ?depth ?comment ?fechaNaci\nORDER BY ?depth\nLIMIT 200");
+
+document.getElementById('consulta-1').addEventListener('click', () => {
+  localStorage.clear();
+consulta = "PREFIX bd: <http://www.bigdata.com/rdf#>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX schema: <http://schema.org/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX gas: <http://www.bigdata.com/rdf/gas#>\nSELECT ?item ?itemLabel ?linkTo ?depth ?comment (SAMPLE (?EjemfechaNaci) AS ?fechaNaci) (SAMPLE (?pic) AS ?unica_pic)\nWHERE\n{\nSERVICE gas:service {\n  gas:program gas:gasClass \"com.bigdata.rdf.graph.analytics.SSSP\" ;\n  gas:in wd:Q47595; #Alfonso X\n  gas:traversalDirection \"Forward\";\n  gas:out ?item;\n  gas:out1 ?depth;\n  gas:maxIterations 3;\n  gas:linkType wdt:P40; #descendiente\n}\nOPTIONAL { ?item wdt:P40 ?linkTo.}\nOPTIONAL { ?item wdt:P18 ?pic.}\nOPTIONAL { ?item wdt:P569 ?EjemfechaNaci}\nOPTIONAL{?item schema:description ?comment.\nFILTER (lang(?comment) = 'es').}\nSERVICE wikibase:label { bd:serviceParam wikibase:language\"[AUTO_LANGUAGE],es,en,ar,be,bg,bn,ca,cs,da,de,el,fr,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh\".}\n}\nGROUP BY ?item ?itemLabel ?linkTo ?unica_pic ?depth ?comment ?fechaNaci\nORDER BY ?depth\nLIMIT 200";
+
+
+yasgui.getTab().yasqe.setValue(consulta);
+
+
+})
+document.getElementById('consulta-2').addEventListener('click', () => {
+consulta = "PREFIX gas: <http://www.bigdata.com/rdf/gas#>\nPREFIX bd: <http://www.bigdata.com/rdf#>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX schema: <http://schema.org/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nSELECT ?item ?itemLabel ?linkTo ?comment (SAMPLE (?pic) AS ?unica_pic)\nWHERE\n{\nSERVICE gas:service {\n  gas:program gas:gasClass \"com.bigdata.rdf.graph.analytics.SSSP\" ;\n  gas:in  wd:Q47595; #Alfonso X\n  gas:traversalDirection \"Forward\" ;\n  gas:target wd:Q19943;  #Juan Carlos I\n  gas:out ?item ;\n  gas:out1 ?depth ;\n  gas:maxIterations 35 ;\n  gas:linkType wdt:P40 ;\n}\nOPTIONAL { ?item wdt:P40 ?linkTo.}\nOPTIONAL { ?item wdt:P18 ?pic.}\nOPTIONAL { ?item schema:description ?comment.\nFILTER (lang(?comment) = 'es').}\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],es,en,ar,be,bg,bn,ca,cs,da,de,el,fr,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh\". }\n}\nGROUP BY ?item ?itemLabel ?linkTo ?unica_pic ?comment"
+yasgui.getTab().yasqe.setValue(consulta);
+})
+
+document.getElementById('consulta-3').addEventListener('click', () => {
+consulta = "PREFIX gas: <http://www.bigdata.com/rdf/gas#>PREFIX bd: <http://www.bigdata.com/rdf#>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX schema: <http://schema.org/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nSELECT ?item ?itemLabel ?linkTo ?depth ?comment (SAMPLE (?EjemfechaNaci) AS ?fechaNaci) (SAMPLE (?pic) AS ?unica_pic)\nWHERE\n{\nSERVICE gas:service {\n  gas:program gas:gasClass \"com.bigdata.rdf.graph.analytics.SSSP\" ;\n  gas:in wd:Q762  ; #Leonardo Da Vinci\n  gas:traversalDirection \"Forward\" ;\n  gas:out ?item ;\n  gas:out1 ?depth ;\n  gas:maxIterations 15 ;\n  gas:linkType wdt:P802 ;\n}\nOPTIONAL { ?item wdt:P802 ?linkTo.}\nOPTIONAL { ?item wdt:P18 ?pic.}\nOPTIONAL { ?item wdt:P569 ?EjemfechaNaci }\nOPTIONAL { ?item schema:description ?comment.\nFILTER (lang(?comment) = 'es').}\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],es,en,ar,be,bg,bn,ca,cs,da,de,el,fr,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh\". }\n}\nGROUP BY ?item ?itemLabel ?linkTo ?unica_pic ?depth ?comment ?fechaNaci\nORDER BY ?depth\nLIMIT 200"
+yasgui.getTab().yasqe.setValue(consulta);
+})
+
+
+
+
+</script>
+<div style="text-align: center">
+<div>  <p>Funciona con:</p></div>
+<div>  <p><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">Wikidata</a></p></div>
+
+
+<div>  <p><a href="https://visjs.org/"   target="_blank"> vis.js</a></p></div>
+<div>  <p><a href="https://github.com/TriplyDB/Yasgui"   target="_blank">Yasgui</a></p></div>
+<div style="text-align: center;font-size:10px;">
+<a href="https://www.flaticon.com/free-icons/graph" title="graph icons">Graph icons created by Grafixpoint - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/siguiente" title="siguiente iconos">Siguiente iconos creados por Roundicons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/graph" title="graph icons">Graph icons created by Grafixpoint - Flaticon</a>
+</div>
+</div>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Genealogías conectadas Wikidata</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="estilos-genealogias.css" rel="stylesheet" />
+
+    </head>
+    <body onload="Comenzar()">
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom bg-light">Javier Murcia Semántica</div>
+                <div class="list-group list-group-flush" style="text-align: center;">
+                </br>
+                <p class="clase-p-select">Personajes<button onmouseover="document.getElementById('personaje').setAttribute('data-on','on')" onpointerout="document.getElementById('personaje').setAttribute('data-on','off')" class="clase-boton-arterisco">*</button></p>
+                <select name="select" id="tipos" class="formulario" aria-label="Large select example">
+                 <option value="Alfonso_X">Alfonso X</option>
+                  <option value="Juan_Carlos_I">Juan Carlos I</option>
+                  <option value="Carlomagno">Carlomagno</option>
+                 <option value="Isabel_I_de_Castilla">Isabel I de Castilla</option>
+                  <option value="Enrique_VIII_de_Inglaterra">Enrique VIII de Inglaterra</option>
+                <option value="Luis_XIV_de_Francia">Luis XIV de Francia</option>
+                <option value="Gosuinda">Gosuinda</option>
+                <option value="Nicolás_II_de_rusia">Nicolás II de rusia</option>
+                <option value="Isabel_I_de_Inglaterra">Isabel I de Inglaterra</option>
+                <option value="Adriano">Adriano</option>
+                <option value="Ragnar_Lothbrok">Ragnar Lothbrok</option>
+                </select>
+                <select name="select" id="tipos2" class="formulario" aria-label="Large select example">
+                  <option value="Juan_Carlos_I">Juan Carlos I</option>
+                  <option value="Alfonso_X">Alfonso X</option>
+                 <option value="Carlomagno">Carlomagno</option>
+                 <option value="Isabel_I_de_Castilla">Isabel I de Castilla</option>
+                  <option value="Enrique_VIII_de_Inglaterra">Enrique VIII de Inglaterra</option>
+                <option value="Luis_XIV_de_Francia">Luis XIV de Francia</option>
+                <option value="Gosuinda">Gosuinda</option>
+                <option value="Nicolás_II_de_rusia">Nicolás II de rusia</option>
+                <option value="Isabel_I_de_Inglaterra">Isabel I de Inglaterra</option>
+                <option value="Ragnar_Lothbrok">Ragnar Lothbrok</option>
+
+                </select>
+
+                <p class="clase-p-select">Nº máximo de resultados<button onmouseover="document.getElementById('max-resultados').setAttribute('data-on','on')" onpointerout="document.getElementById('max-resultados').setAttribute('data-on','off')" class="clase-boton-arterisco">*</button></p>
+                <input type="number" id="maximoResultados" name="Resultados como máximo" min="20" max="300" value="200" class="formularioPeque"/>
+                <p class="clase-p-select">Nº máximo de iteracciones<button onmouseover="document.getElementById('max-iteraciones').setAttribute('data-on','on')" onpointerout="document.getElementById('max-iteraciones').setAttribute('data-on','off')" class="clase-boton-arterisco">*</button></p>
+                <input type="number" id="maxIterations" name="Iteraciones" min="1" max="55" value="35" class="formularioPeque"/>
+
+                <button id="botonBusqueda"   class="btn btn-dark" style="width:90%;margin-top:10px;margin-left:auto;margin-right:auto;">Buscar</button>
+                <div class="sobre-grafo text parpadea" id="supDerecha"></div>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle">Alternar Menú</button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active"><a class="nav-link" href="Genalogias-Conectadas-Wikidata-LineaTiempo.html">Genealogías conectadas: Línea de tiempo</a></li>
+                                <li class="nav-item"><a class="nav-link" href="index.html">Descendientes/Ascendientes</a></li>
+                                <li class="nav-item"><a class="nav-link" href="Discipulos-Wikidata.html">Maestro/Discípulos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="genealogias-sparql.html">SPARQL</a></li>
+                                <!--<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="sobre-mapa"></div>
+
+                <div class="container-fluid">
+                    <h1 class="mt-4" id="titulo">Genealogías conectadas Wikidata</h1>
+
+
+                    <button type="button" id="btn-Jerarq" class="btn" ><span class="glyphicon glyphicon-cog"><img src="knowledge-graph.png"  width="25" height="25"></span></button>
+                      <button type="button" id="btn-UD" class="btn" ><span class="glyphicon glyphicon-arrow-up"><img src="Arri.png" width="15" height="15"></span></button>
+                      <button type="button" id="btn-DU" class="btn" ><span class="glyphicon glyphicon-arrow-down"><img src="Aba.png"  width="15" height="15"></span></button>
+                     <button type="button" id="btn-LR" class="btn" ><span class="glyphicon glyphicon-indent-left"><img src="I.png"  width="15" height="15"></span></button>
+                      <button type="button" id="btn-RL"class="btn" ><span class="glyphicon glyphicon-indent-right"><img src="D.png"  width="15" height="15" alt="Organiza de derecha a izquierda"></span></button>
+                      <input type="hidden" id="direction" value="UD" />
+                      <input type="text" id="nombreEntrada" placeholder="introduce un personaje histórico" class="oculto">
+                    <input type="text" id="nombreEntrada2" placeholder="introduce un personaje histórico" class="oculto"></br>
+                    <div id="mynetwork" style="height: 600px;align:left;" class="mynetwork"><div class="spinnerOculto" id="spinner"><img src="" id="imgspinner"/></div></div>
+
+                    <div class="card-body padding" id="div-3">
+
+                        <div class="panel" id="personaje" data-on="off" onclick="this.setAttribute('data-on','off')">
+                        <div>
+                        <p>Elige los personajes sobre los que buscar la relación genealógica.</p>
+                        <p>El primer personaje debe ser anterior históricamente al segundo. Existen relaciones sorprendentes:</p>
+                        <ul>
+                         <li>Alfonso X y Juan Carlos I.</li>
+                         <li>Carlomagno y Nicolás II de rusia.</li>
+                         <li>El Emperador Adriano y Ragnar Lothbrok ??</li>
+                         <p> y por lo tanto entre: </p>
+                         <li>Adriano e Isabel I de Inglaterra</li>
+                        </ul>
+
+                        <ul>
+
+                        </ul>
+                        <p>Aunque en este caso tendrás que subir las iteraciones a 55 para conseguir resultados.</p>
+                        </div>
+                        </div>
+                        <div class="panel" id="max-resultados" data-on="off" onclick="this.setAttribute('data-on','off')">
+                        <div>
+                        <p>Elige el número máximo de resultados que se intentarán rescatar.</p>
+                        </div>
+                        </div>
+                        <div class="panel" id="max-iteraciones" data-on="off" onclick="this.setAttribute('data-on','off')">
+                        <div>
+                        <p>Opción que se utiliza para especificar el número máximo de iteraciones antes de que finalice el algoritmo GAS.</p>
+                      <p>  Cuanto mayor sea el número, mas vértices o nodos intentará recorrer.</p>
+                      <p> Para encontrar la relación de parentesco más corta entre estos personajes, es neceseario mantener un número alto, de lo contrario
+                        el algoritmo podría no encontrar la conexión entre ambos.</p>
+                        </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="js/vis-network.min.js"></script>
+          <script src="js/script-genealogias-conectadas-wikidata.js"></script>
+          <div style="text-align: center">
+          <div>  <p>Funciona con:</p></div>
+          <div>  <p><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">Wikidata</a></p></div>
+
+
+          <div>  <p><a href="https://visjs.org/"   target="_blank"> vis.js</a></p></div>
+          <div>  <p><a href="https://github.com/TriplyDB/Yasgui"   target="_blank">Yasgui</a></p></div>
+          <div style="text-align: center;font-size:10px;">
+          <a href="https://www.flaticon.com/free-icons/graph" title="graph icons">Graph icons created by Grafixpoint - Flaticon</a>
+          <a href="https://www.flaticon.es/iconos-gratis/siguiente" title="siguiente iconos">Siguiente iconos creados por Roundicons - Flaticon</a>
+          <a href="https://www.flaticon.com/free-icons/graph" title="graph icons">Graph icons created by Grafixpoint - Flaticon</a>
+          </div>
+        </div>
+    </body>
+</html>
